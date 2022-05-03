@@ -3,14 +3,15 @@
 <package format="3">
   <name>dwm1001</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>A package to connect the DWM1001 to ROS</description>
   <maintainer email="37396126+KMcNickel@users.noreply.github.com">kyle</maintainer>
-  <license>TODO: License declaration</license>
+  <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
+  <depend>rclcpp</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
