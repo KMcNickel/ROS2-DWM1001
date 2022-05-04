@@ -2,7 +2,7 @@
 
 enum DWM1001TLVTypes
 {
-    DWM1001_TLV_TYPE_COMMAND_INVALID = 0x00,
+    DWM1001_TLV_TYPE_NONE = 0x00,
     DWM1001_TLV_TYPE_COMMAND_POS_SET = 0x01,
     DWM1001_TLV_TYPE_COMMAND_POS_GET = 0x02,
     DWM1001_TLV_TYPE_COMMAND_UPDATE_RATE_SET = 0x03,
@@ -98,10 +98,10 @@ struct DWM1001PositionData
 
     void fillData(unsigned char * data)
     {
-        x = *data;
-        y = *(data + 1);
-        z = *(data + 2);
-        quality = *(data + 3);
+        x = *data | *(data + 1) << 8 | *(data + 2) << 16 | *(data + 3) << 24;
+        y = *(data + 4) | *(data + 5) << 8 | *(data + 6) << 16 | *(data + 7) << 24;
+        z = *(data + 8) | *(data + 9) << 8 | *(data + 10) << 16 | *(data + 11) << 24;
+        quality = *(data + 12);
     }
 
     std::string to_string()
@@ -382,4 +382,40 @@ enum DWM1001StationarySensitivity
     DWM1001_STATIONARY_SENSITIVITY_LOW = 0,
     DWM1001_STATIONARY_SENSITIVITY_MEDIUM = 1,
     DWM1001_STATIONARY_SENSITIVITY_HIGH = 2,
+};
+
+struct DWM1001Status
+{
+    bool locationReady;
+    bool uwbmacJoinedNetwork;
+    bool backhaulDataReady;
+    bool backhaulStatusChanged;
+    bool uwbScanReady;
+    bool userDataReady;
+    bool userDataSent;
+    bool firmwareUpdateInProgress;
+
+    void fillData(unsigned char * data)
+    {
+        locationReady = *data & 0b00000001;
+        uwbmacJoinedNetwork = *data & 0b00000010;
+        backhaulDataReady = *data & 0b00000100;
+        backhaulStatusChanged = *data & 0b00001000;
+        uwbScanReady = *data & 0b00100000;
+        userDataReady = *data & 0b01000000;
+        userDataSent = *data & 0b10000000;
+        firmwareUpdateInProgress = (*(data) + 1) & 0b00000001;
+    }
+
+    std::string to_string()
+    {
+        return "\n\tLocation Ready: " + std::to_string(locationReady) +
+                "\n\tConnected to UWB Network: " + std::to_string(uwbmacJoinedNetwork) +
+                "\n\tBackhaul Data Ready: " + std::to_string(backhaulDataReady) +
+                "\n\tBackhaul Status Changed: " + std::to_string(backhaulStatusChanged) +
+                "\n\tUWB Scan Ready: " + std::to_string(uwbScanReady) +
+                "\n\tUser Data Ready: " + std::to_string(userDataReady) +
+                "\n\tUser Data Sent: " + std::to_string(userDataSent) +
+                "\n\tFirmware Update In Progress: " + std::to_string(firmwareUpdateInProgress);
+    }
 };

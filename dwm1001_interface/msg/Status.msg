@@ -1,0 +1,8 @@
+bool location_ready
+bool uwb_mac_joined_network
+bool backhaul_data_ready
+bool backhaul_status_changed
+bool uwb_scan_ready
+bool user_data_ready
+bool user_data_sent
+bool firmware_update_in_progress
