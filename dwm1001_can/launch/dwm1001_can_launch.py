@@ -23,18 +23,18 @@ def generate_launch_description():
         default_value = '1'
     )
 
-    batteryMeterNode = Node(
-        package = "battery_monitor",
-        executable = "meter",
+    dwm1001CanNode = Node(
+        package = "dwm1001_can",
+        executable = "dwm1001",
         namespace = deviceName,
-        name = "battery",
+        name = "dwm1001",
         output = "screen",
         emulate_tty = True,
         parameters = [
             {"can_id": canId},
         ],
         remappings = [
-            ("battery/input/can", ["/", deviceName, "/", canbusInterfaceName, "/output/data"]),
+            ("dwm1001/input/can", ["/", deviceName, "/", canbusInterfaceName, "/output/data"]),
         ],
     )
 
@@ -42,5 +42,5 @@ def generate_launch_description():
         deviceNameLaunchArg,
         canbusInterfaceNameLaunchArg,
         canIdLaunchArg,
-        batteryMeterNode
+        dwm1001CanNode
     ])

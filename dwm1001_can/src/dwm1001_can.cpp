@@ -102,7 +102,7 @@ class DWM1001CAN : public rclcpp_lifecycle::LifecycleNode
         void createInterfaces()
         {
             canDataSubscription = this->create_subscription<can_interface::msg::CanFrame>(
-                "battery/input/can", 50, std::bind(&DWM1001CAN::canDataReceived, this, _1));
+                "dwm1001/input/can", 50, std::bind(&DWM1001CAN::canDataReceived, this, _1));
             positionPublisher = this->create_publisher<dwm1001_interface::msg::Position>("dwm1001/output/position", 10);
         }
 
