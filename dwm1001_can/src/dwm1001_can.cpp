@@ -144,10 +144,10 @@ class DWM1001CAN : public rclcpp_lifecycle::LifecycleNode
                             message.data[3], message.data[2], message.data[1], message.data[0]);
                     break;
                 case DWM1001_CAN_MESSAGE_TYPE_POS:
-                    msgOut.x = message.data[0] << 8 | message.data[1];
-                    msgOut.y = message.data[2] << 8 | message.data[3];
-                    msgOut.z = message.data[4] << 8 | message.data[5];
-                    msgOut.delta_time = message.data[6] << 8 | message.data[7];
+                    msgOut.x = message.data[1] << 8 | message.data[0];
+                    msgOut.y = message.data[3] << 8 | message.data[2];
+                    msgOut.z = message.data[5] << 8 | message.data[4];
+                    msgOut.delta_time = message.data[7] << 8 | message.data[6];
 
                     positionPublisher->publish(msgOut);
                     break;
